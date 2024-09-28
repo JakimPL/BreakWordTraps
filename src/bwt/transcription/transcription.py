@@ -6,11 +6,15 @@ import moviepy.editor as mp
 
 
 class Transcriber:
-    def __init__(self, backend: str = "openai", model: str = "medium"):
+    def __init__(self, backend: str = "whisper_timestamped", model: str = "medium", language: str = "pl"):
         self.backend = backend
-        if self.backend == "local":
+        self.language = language
+        if self.backend == "whisper":
             import whisper
             self.model = whisper.load_model(model)
+        elif self.backend == "whisper_timestamped":
+            import whisper_timestamped as whisper
+            self.model = whisper.load_model("tiny", device="cpu")
         elif self.backend == "openai":
             from openai import OpenAI
             self.client = OpenAI()
@@ -31,9 +35,12 @@ class Transcriber:
     def __call__(self, filepath: os.PathLike) -> Dict[str, Any]:
         audio_path = self._convert_video_to_audio(filepath)
 
-        if self.backend == "local":
+        if self.backend == "whisper":
             response = self.model.transcribe(str(audio_path))
-
+        elif self.backend == "whisper_timestamped":
+            import whisper_timestamped as whisper
+            audio = whisper.load_audio(str(audio_path))
+            return whisper.transcribe(self.model, audio, language=self.language)
         elif self.backend == "openai":
             with open(audio_path, 'rb') as audio_file:
                 response = self.client.audio.transcriptions.create(
