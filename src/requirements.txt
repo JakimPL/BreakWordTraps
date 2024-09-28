@@ -3,5 +3,6 @@ moviepy
 openai
 openai-whisper
 spacy
+tqdm
 uvicorn
 whisper_timestamped

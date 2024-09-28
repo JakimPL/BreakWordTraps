@@ -11,6 +11,7 @@ setup(
         'openai',
         'openai-whisper',
         'spacy',
+        'tqdm',
         'whisper_timestamped',
         'uvicorn'
     ],
