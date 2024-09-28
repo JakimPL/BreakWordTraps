@@ -1,5 +1,6 @@
 import json
-from typing import Any, Dict, List
+from json import JSONDecodeError
+from typing import Any, Dict, List, Optional
 
 from bwt.prompter.prompter import Prompter
 from bwt.transcription.utility import (
@@ -16,8 +17,7 @@ class MixedLanguagesAnalyzer:
         self.content = "Jesteś językoznawcą z 20-letnim doświadczeniem w badaniu języka polskiego w kontekście występów publicznych. Zwracasz baczną uwagę na szczegóły związane z jasnością przekazu i korzystając z doświadczenia, wiedzy i wyczucia potrafisz doskonale ocenić jakość czyjegoś wystąpienia."
         self.message = """
 ZADANIE:
-Zadanie polega na wskazaniu w liście składających się z paru wypowiedzi anglicyzmów oraz zapożyczeń z języka angielskiego. Poszczególne wypowiedzi są wyróżnione cudzysłowem. Wynik należy podać jako listę
-Nie podawaj imion i nazwisk.
+Zadanie polega na wskazaniu w liście składających się z paru wypowiedzi anglicyzmów oraz zapożyczeń z języka angielskiego. Poszczególne wypowiedzi są wyróżnione cudzysłowem. Wynik należy podać jako listę bez żadnej dodatkowej treści. Nie podawaj imion i nazwisk. 
 
 PRZYKŁAD
 [
@@ -37,7 +37,7 @@ ODPOWIEDŹ:
 
 Lista wypowiedzi zostanie przesłana w następnej wiadomości."""
 
-    def __call__(self, transcription: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def __call__(self, transcription: Dict[str, Any]) -> Optional[List[Dict[str, Any]]]:
         sentences = get_sentences(transcription)
         text = json.dumps(sentences, indent=4, ensure_ascii=False)
         messages = [self.message, text]
@@ -46,8 +46,9 @@ Lista wypowiedzi zostanie przesłana w następnej wiadomości."""
             messages=messages
         )
 
-        sentences = get_sentences_with_words(transcription)
-        return self._process_response(response, sentences)
+        if response is not None:
+            sentences = get_sentences_with_words(transcription)
+            return self._process_response(response, sentences)
 
     @staticmethod
     def _process_response(response: List[str], sentences: List[List[Dict[str, Any]]]) -> List[Dict[str, Any]]:
