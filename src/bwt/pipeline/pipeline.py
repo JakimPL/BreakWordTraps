@@ -3,9 +3,9 @@ from typing import Dict, Any
 
 from tqdm import tqdm
 
+from bwt.analyzer.text.combined import CombinedAnalyzer
 from bwt.analyzer.text.fast_speaking import FastSpeakingAnalyzer
 from bwt.analyzer.text.long_sentences import LongSentencesAnalyzer
-from bwt.analyzer.text.mixed_languages import MixedLanguagesAnalyzer
 from bwt.analyzer.text.numerals import NumeralsAnalyzer
 from bwt.analyzer.text.pauses import PausesAnalyzer
 from bwt.converter.video_to_audio import VideoToAudioConverter
@@ -19,9 +19,9 @@ class Pipeline:
         self.video_to_audio_converter = VideoToAudioConverter()
         self.transcriber = Transcriber()
         self.text_analyzers = [
+            CombinedAnalyzer(),
             FastSpeakingAnalyzer(),
             LongSentencesAnalyzer(),
-            MixedLanguagesAnalyzer(),
             NumeralsAnalyzer(),
             PausesAnalyzer(),
         ]
@@ -31,9 +31,9 @@ class Pipeline:
         audio_path = self.video_to_audio_converter(input_path)
         self.logger.info("Transcribing audio to text...")
         transcription = self.transcriber(audio_path)
-        output = {}
 
+        output = {}
         for analyzer in tqdm(self.text_analyzers, desc="Text analysis"):
-            output[analyzer.name] = analyzer(transcription)
+            output.update(analyzer(transcription))
 
         return output

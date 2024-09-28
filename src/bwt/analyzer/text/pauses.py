@@ -1,3 +1,5 @@
+from typing import Dict
+
 from bwt.analyzer.text.analyzer import Analyzer
 from bwt.transcription.utility import Word, Words
 from bwt.transcription.utility import get_words
@@ -17,10 +19,10 @@ class PausesAnalyzer(Analyzer):
         self.min_confidence = min_confidence
         self.min_pause_length = min_pause_length
 
-    def __call__(self, transcription: Word) -> Words:
+    def __call__(self, transcription: Word) -> Dict[str, Words]:
         words = get_words(transcription)
         pauses = self._get_pauses(words)
-        return pauses
+        return {self.name: pauses}
 
     def _get_pauses(self, words: Words) -> Words:
         pauses = []

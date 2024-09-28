@@ -1,4 +1,5 @@
 import re
+from typing import Dict
 
 from bwt.analyzer.text.analyzer import Analyzer
 from bwt.transcription.utility import Word, Words
@@ -22,7 +23,7 @@ class FastSpeakingAnalyzer(Analyzer):
         self.max_duration = max_duration
         self.min_speed = min_speed
 
-    def __call__(self, transcription: Word) -> Words:
+    def __call__(self, transcription: Word) -> Dict[str, Words]:
         sentences = get_sentences_with_words(transcription)
         fast_sentences = []
         for sentence in sentences:
@@ -36,7 +37,7 @@ class FastSpeakingAnalyzer(Analyzer):
                     "end": sentence[-1]["end"],
                 })
 
-        return fast_sentences
+        return {self.name: fast_sentences}
 
     def _process_sentence(self, sentence_words: Words) -> float:
         # Filter out words with low confidence and too long duration

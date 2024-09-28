@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional
 
 from bwt.analyzer.text.analyzer import Analyzer
 from bwt.prompter.prompter import Prompter
+from bwt.transcription.utility import Words
 from bwt.transcription.utility import (
     find_sublist_indices,
     get_sentences,
@@ -39,7 +40,7 @@ ODPOWIEDŹ:
 
 Lista wypowiedzi zostanie przesłana w następnej wiadomości."""
 
-    def __call__(self, transcription: Dict[str, Any]) -> Optional[List[Dict[str, Any]]]:
+    def __call__(self, transcription: Dict[str, Any]) -> Dict[str, Optional[Words]]:
         sentences = get_sentences(transcription)
         text = json.dumps(sentences, indent=4, ensure_ascii=False)
         messages = [self.message, text]
@@ -50,7 +51,7 @@ Lista wypowiedzi zostanie przesłana w następnej wiadomości."""
 
         if response is not None:
             sentences = get_sentences_with_words(transcription)
-            return self._process_response(response, sentences)
+            return {self.name: self._process_response(response, sentences)}
 
     @staticmethod
     def _process_response(response: List[str], sentences: List[List[Dict[str, Any]]]) -> List[Dict[str, Any]]:

@@ -1,8 +1,8 @@
 from typing import Any, Dict, List
 
 from bwt.analyzer.text.analyzer import Analyzer
-from bwt.transcription.utility import Word, join_sentence
-from bwt.transcription.utility import get_sentences_with_words
+from bwt.transcription.utility import Word, Words
+from bwt.transcription.utility import get_sentences_with_words, join_sentence
 
 MIN_NUMERALS_IN_SENTENCE = 3
 
@@ -13,7 +13,7 @@ class NumeralsAnalyzer(Analyzer):
     def __init__(self, min_numerals_in_sentence: int = MIN_NUMERALS_IN_SENTENCE):
         self.min_numerals_in_sentence = min_numerals_in_sentence
 
-    def __call__(self, transcription: Dict[str, Any]) -> List[Dict[str, Any]]:
+    def __call__(self, transcription: Dict[str, Any]) -> Dict[str, Words]:
         sentences = get_sentences_with_words(transcription)
         sentence_with_numerals = []
         for sentence in sentences:
@@ -26,9 +26,10 @@ class NumeralsAnalyzer(Analyzer):
                     "numerals": numerals
                 })
 
-        return sentence_with_numerals
+        return {self.name: sentence_with_numerals}
 
-    def _get_numerals(self, sentence: List[Word]) -> List[str]:
+    @staticmethod
+    def _get_numerals(sentence: List[Word]) -> List[str]:
         numerals = []
         for word in sentence:
             text = word["text"]
