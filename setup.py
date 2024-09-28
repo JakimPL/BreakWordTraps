@@ -6,11 +6,12 @@ setup(
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     install_requires=[
+        'fastapi',
         'moviepy',
         'openai',
-        'whisper',
+        'openai-whisper',
+        'spacy',
         'whisper_timestamped',
-        'fastapi',
         'uvicorn'
     ],
     classifiers=[
