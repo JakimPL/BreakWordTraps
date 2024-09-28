@@ -1,8 +1,13 @@
 import json
-from typing import Any, Dict
+from typing import Any, Dict, List
 
 from bwt.prompter.prompter import Prompter
-from bwt.transcription.utility import get_segments
+from bwt.transcription.utility import (
+    find_sublist_indices,
+    get_sentences,
+    get_sentences_with_words,
+    tokenize
+)
 
 
 class MixedLanguagesAnalyzer:
@@ -32,13 +37,34 @@ ODPOWIEDŹ:
 
 Lista wypowiedzi zostanie przesłana w następnej wiadomości."""
 
-    def __call__(self, transcription: Dict[str, Any]) -> int:
-        segments = get_segments(transcription)
-        text = json.dumps(segments, indent=4, ensure_ascii=False)
+    def __call__(self, transcription: Dict[str, Any]) -> List[Dict[str, Any]]:
+        sentences = get_sentences(transcription)
+        text = json.dumps(sentences, indent=4, ensure_ascii=False)
         messages = [self.message, text]
-        result = self.prompter(
+        response = self.prompter(
             content=self.content,
             messages=messages
         )
 
-        return json.loads(result.choices[0].message.content)
+        sentences = get_sentences_with_words(transcription)
+        return self._process_response(response, sentences)
+
+    @staticmethod
+    def _process_response(response: List[str], sentences: List[List[Dict[str, Any]]]) -> List[Dict[str, Any]]:
+        mixed_language_fragments = []
+        for sentence_id, fragments in enumerate(response):
+            for fragment in fragments:
+                response_sentence = tokenize(fragment)
+                sentence_words = [word["text"] for word in sentences[sentence_id]]
+                result = find_sublist_indices(sentence_words, response_sentence)
+                if result is not None:
+                    start, end = result
+                    start = sentences[sentence_id][start]["start"]
+                    end = sentences[sentence_id][end]["end"]
+                    mixed_language_fragments.append({
+                        "text": fragment,
+                        "start": start,
+                        "end": end
+                    })
+
+        return mixed_language_fragments

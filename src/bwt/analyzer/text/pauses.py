@@ -25,6 +25,10 @@ class PausesAnalyzer:
             length = word["end"] - word["start"]
             confidence = word["confidence"]
             if i and length > self.min_pause_length and confidence >= self.min_confidence:
-                pauses.append(word)
+                pauses.append({
+                    "text": word["text"],
+                    "start": word["start"],
+                    "end": word["end"]
+                })
 
         return pauses

@@ -18,9 +18,9 @@ class NumeralsAnalyzer:
             if len(numerals) >= self.min_numerals_in_sentence:
                 sentence_with_numerals.append({
                     "text": join_sentence(sentence),
-                    "numerals": numerals,
                     "start": sentence[0]["start"],
                     "end": sentence[-1]["end"],
+                    "numerals": numerals
                 })
 
         return sentence_with_numerals

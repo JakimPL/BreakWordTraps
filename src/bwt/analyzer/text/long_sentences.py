@@ -1,7 +1,7 @@
 from typing import Any, Dict
 
-from bwt.transcription.utility import get_sentences_with_words, join_sentence
 from bwt.transcription.utility import Words
+from bwt.transcription.utility import get_sentences_with_words, join_sentence
 
 MAX_SENTENCE_LENGTH = 15
 
@@ -27,9 +27,9 @@ class LongSentencesAnalyzer:
             if sentence_length > self.max_sentence_length:
                 long_sentences.append({
                     "text": text,
-                    "length": sentence_length,
                     "start": start,
-                    "end": end
+                    "end": end,
+                    "sentence_length": sentence_length
                 })
 
         return long_sentences
