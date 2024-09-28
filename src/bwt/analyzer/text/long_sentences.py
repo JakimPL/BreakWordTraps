@@ -1,9 +1,9 @@
 from typing import Any, Dict
 
-from bwt.transcription.utility import get_text, get_words
+from bwt.transcription.utility import get_sentences_with_words, join_sentence
 from bwt.transcription.utility import Words
 
-MAX_SENTENCE_LENGTH = 35
+MAX_SENTENCE_LENGTH = 15
 
 
 class LongSentencesAnalyzer:
@@ -11,24 +11,22 @@ class LongSentencesAnalyzer:
         self.max_sentence_length = max_sentence_length
 
     def __call__(self, transcription: Dict[str, Any]) -> Words:
-        text = get_text(transcription)
-        words = get_words(transcription)
-        sentences = text.split('.')
+        sentences = get_sentences_with_words(transcription)
 
         total_length = 0
         long_sentences = []
         for sentence in sentences:
             if not sentence:
                 continue
-            sentence = sentence.strip()
-            sentence_words = sentence.split()
-            sentence_length = len(sentence_words)
-            start = words[total_length]["start"]
-            end = words[total_length + sentence_length - 1]["end"]
+
+            text = join_sentence(sentence)
+            sentence_length = len(sentence)
+            start = sentence[0]["start"]
+            end = sentence[-1]["end"]
             total_length += sentence_length
-            if sentence_length > 15:
+            if sentence_length > self.max_sentence_length:
                 long_sentences.append({
-                    "sentence": sentence,
+                    "text": text,
                     "length": sentence_length,
                     "start": start,
                     "end": end
