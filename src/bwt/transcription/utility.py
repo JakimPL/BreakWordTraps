@@ -1,19 +1,9 @@
 from typing import Any, Dict, List
 
-import spacy
+from bwt.tokenizer.tokenizer import Tokenizer
 
 Word = Dict[str, Any]
 Words = List[Word]
-
-NLP_MODEL = "pl_core_news_sm"
-
-
-def tokenize(item: str, sentences: bool = False) -> List[str]:
-    nlp = spacy.load(NLP_MODEL)
-    if sentences:
-        return list(map(str, nlp(item).sents))
-
-    return list(map(str, nlp(item)))
 
 
 def get_words(transcription: Dict[str, Any]) -> List[Word]:
@@ -36,14 +26,14 @@ def get_text(transcription: Dict[str, Any]) -> str:
     return transcription["text"].strip()
 
 
-def get_sentences(transcription: Dict[str, Any]) -> List[str]:
-    sentences = tokenize(get_text(transcription), sentences=True)
+def get_sentences(transcription: Dict[str, Any], tokenizer: Tokenizer) -> List[str]:
+    sentences = tokenizer(get_text(transcription), sentences=True)
     return sentences
 
 
-def get_sentence_map(transcription: Dict[str, Any]):
+def get_sentence_map(transcription: Dict[str, Any], tokenizer: Tokenizer) -> Dict[int, int]:
     words = get_words(transcription)
-    sentences = get_sentences(transcription)
+    sentences = get_sentences(transcription, tokenizer)
 
     sentence_map = {}
     sentence_id = 0
@@ -64,9 +54,9 @@ def get_sentence_map(transcription: Dict[str, Any]):
     return sentence_map
 
 
-def get_sentences_with_words(transcription: Dict[str, Any]) -> List[Words]:
+def get_sentences_with_words(transcription: Dict[str, Any], tokenizer: Tokenizer) -> List[Words]:
     words = get_words(transcription)
-    sentence_map = get_sentence_map(transcription)
+    sentence_map = get_sentence_map(transcription, tokenizer)
     sentences = [[] for _ in set(sentence_map.values())]
     for word_id, sequence_id in sentence_map.items():
         sentences[sequence_id].append(words[word_id])
