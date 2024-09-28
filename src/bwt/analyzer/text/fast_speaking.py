@@ -1,5 +1,6 @@
 import re
 
+from bwt.analyzer.text.analyzer import Analyzer
 from bwt.transcription.utility import Word, Words
 from bwt.transcription.utility import get_sentences_with_words, join_sentence
 
@@ -8,7 +9,9 @@ MIN_SPEED = 6.15
 MAX_DURATION = 3.5
 
 
-class FastSpeakingAnalyzer:
+class FastSpeakingAnalyzer(Analyzer):
+    name: str = "fast_speaking"
+
     def __init__(
             self,
             min_confidence: float = MIN_CONFIDENCE,

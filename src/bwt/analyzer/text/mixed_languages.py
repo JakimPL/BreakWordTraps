@@ -1,7 +1,7 @@
 import json
-from json import JSONDecodeError
 from typing import Any, Dict, List, Optional
 
+from bwt.analyzer.text.analyzer import Analyzer
 from bwt.prompter.prompter import Prompter
 from bwt.transcription.utility import (
     find_sublist_indices,
@@ -11,7 +11,9 @@ from bwt.transcription.utility import (
 )
 
 
-class MixedLanguagesAnalyzer:
+class MixedLanguagesAnalyzer(Analyzer):
+    name: str = "mixed_languages"
+
     def __init__(self):
         self.prompter = Prompter()
         self.content = "Jesteś językoznawcą z 20-letnim doświadczeniem w badaniu języka polskiego w kontekście występów publicznych. Zwracasz baczną uwagę na szczegóły związane z jasnością przekazu i korzystając z doświadczenia, wiedzy i wyczucia potrafisz doskonale ocenić jakość czyjegoś wystąpienia."

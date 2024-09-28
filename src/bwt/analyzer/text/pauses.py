@@ -1,11 +1,14 @@
-from bwt.transcription.utility import get_words
+from bwt.analyzer.text.analyzer import Analyzer
 from bwt.transcription.utility import Word, Words
+from bwt.transcription.utility import get_words
 
 MIN_CONFIDENCE = 0.6
 MIN_PAUSE_LENGTH = 3.5
 
 
-class PausesAnalyzer:
+class PausesAnalyzer(Analyzer):
+    name: str = "pauses"
+
     def __init__(
             self,
             min_confidence: float = MIN_CONFIDENCE,

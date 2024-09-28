@@ -1,12 +1,15 @@
 from typing import Any, Dict, List
 
+from bwt.analyzer.text.analyzer import Analyzer
 from bwt.transcription.utility import Word, join_sentence
 from bwt.transcription.utility import get_sentences_with_words
 
 MIN_NUMERALS_IN_SENTENCE = 3
 
 
-class NumeralsAnalyzer:
+class NumeralsAnalyzer(Analyzer):
+    name: str = "numerals"
+
     def __init__(self, min_numerals_in_sentence: int = MIN_NUMERALS_IN_SENTENCE):
         self.min_numerals_in_sentence = min_numerals_in_sentence
 
