@@ -1,2 +1,7 @@
 fastapi
 uvicorn
+spacy
+openai
+whisper
+whisper_timestamped
+moviepy
