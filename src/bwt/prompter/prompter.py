@@ -1,3 +1,4 @@
+import json
 from typing import List
 
 from openai import OpenAI
@@ -9,7 +10,7 @@ class Prompter:
         self.model = model
 
     def __call__(self, content: str, messages: List[str]):
-        return self.client.chat.completions.create(
+        response = self.client.chat.completions.create(
             model=self.model,
             messages=[
                 {
@@ -22,3 +23,5 @@ class Prompter:
                 } for message in messages],
             ],
         )
+
+        return json.loads(response.choices[0].message.content)
