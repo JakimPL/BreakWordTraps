@@ -9,6 +9,9 @@ setup(
         'moviepy',
         'openai',
         'whisper',
+        'whisper_timestamped',
+        'fastapi',
+        'uvicorn'
     ],
     classifiers=[
         'Programming Language :: Python :: 3',
