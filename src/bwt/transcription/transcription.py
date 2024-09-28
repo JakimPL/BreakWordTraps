@@ -28,7 +28,7 @@ class Transcriber:
             audio = whisper.load_audio(str(filepath))
             return whisper.transcribe(self.model, audio, language=self.language)
         elif self.backend == "openai":
-            with open(filepath, 'rb') as audio_file:
+            with open(filepath, "rb") as audio_file:
                 response = self.client.audio.transcriptions.create(
                     model="whisper-1",
                     file=audio_file

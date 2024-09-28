@@ -1,6 +1,7 @@
 from typing import Any, Dict, List
 
 from bwt.analyzer.text.analyzer import Analyzer
+from bwt.tokenizer.tokenizer import Tokenizer
 from bwt.transcription.utility import Word, Words
 from bwt.transcription.utility import get_sentences_with_words, join_sentence
 
@@ -13,8 +14,10 @@ class NumeralsAnalyzer(Analyzer):
     def __init__(self, min_numerals_in_sentence: int = MIN_NUMERALS_IN_SENTENCE):
         self.min_numerals_in_sentence = min_numerals_in_sentence
 
+        self.tokenizer = Tokenizer()
+
     def __call__(self, transcription: Dict[str, Any]) -> Dict[str, Words]:
-        sentences = get_sentences_with_words(transcription)
+        sentences = get_sentences_with_words(transcription, self.tokenizer)
         sentence_with_numerals = []
         for sentence in sentences:
             numerals = self._get_numerals(sentence)

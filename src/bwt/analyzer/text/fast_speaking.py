@@ -2,6 +2,7 @@ import re
 from typing import Dict
 
 from bwt.analyzer.text.analyzer import Analyzer
+from bwt.tokenizer.tokenizer import Tokenizer
 from bwt.transcription.utility import Word, Words
 from bwt.transcription.utility import get_sentences_with_words, join_sentence
 
@@ -23,8 +24,10 @@ class FastSpeakingAnalyzer(Analyzer):
         self.max_duration = max_duration
         self.min_speed = min_speed
 
+        self.tokenizer = Tokenizer()
+
     def __call__(self, transcription: Word) -> Dict[str, Words]:
-        sentences = get_sentences_with_words(transcription)
+        sentences = get_sentences_with_words(transcription, self.tokenizer)
         fast_sentences = []
         for sentence in sentences:
             speed = self._process_sentence(sentence)

@@ -1,6 +1,7 @@
 from typing import Any, Dict
 
 from bwt.analyzer.text.analyzer import Analyzer
+from bwt.tokenizer.tokenizer import Tokenizer
 from bwt.transcription.utility import Words
 from bwt.transcription.utility import get_sentences_with_words, join_sentence
 
@@ -13,8 +14,10 @@ class LongSentencesAnalyzer(Analyzer):
     def __init__(self, max_sentence_length: int = MAX_SENTENCE_LENGTH):
         self.max_sentence_length = max_sentence_length
 
+        self.tokenizer = Tokenizer()
+
     def __call__(self, transcription: Dict[str, Any]) -> Dict[str, Words]:
-        sentences = get_sentences_with_words(transcription)
+        sentences = get_sentences_with_words(transcription, self.tokenizer)
 
         total_length = 0
         long_sentences = []

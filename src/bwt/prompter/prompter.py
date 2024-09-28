@@ -1,5 +1,5 @@
 import json
-from typing import List, Optional
+from typing import Any, Dict, List, Optional, Union
 
 from openai import (
     APIConnectionError,
@@ -11,6 +11,8 @@ from openai.types.chat import ChatCompletion
 
 from bwt.logger import get_logger
 
+SEED = 137
+
 
 class Prompter:
     def __init__(self, model: str = "gpt-4o-mini"):
@@ -18,7 +20,7 @@ class Prompter:
         self.model = model
         self.logger = get_logger("Prompter")
 
-    def __call__(self, content: str, messages: List[str]) -> Optional[List[str]]:
+    def __call__(self, content: str, messages: List[str]) -> Optional[Union[List[str], Dict[str, Any]]]:
         try:
             response = self._get_response(content, messages)
         except (APIConnectionError, APITimeoutError, InternalServerError) as exception:
@@ -45,6 +47,7 @@ class Prompter:
                     "content": message,
                 } for message in messages],
             ],
+            seed=SEED
         )
 
     @staticmethod
