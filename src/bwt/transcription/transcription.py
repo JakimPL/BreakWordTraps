@@ -14,7 +14,7 @@ class Transcriber:
             self.model = whisper.load_model(model)
         elif self.backend == "whisper_timestamped":
             import whisper_timestamped as whisper
-            self.model = whisper.load_model("tiny", device="cpu")
+            self.model = whisper.load_model(model, device="cpu")
         elif self.backend == "openai":
             from openai import OpenAI
             self.client = OpenAI()
