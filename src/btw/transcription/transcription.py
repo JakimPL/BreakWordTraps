@@ -1,14 +1,22 @@
 import os
 from pathlib import Path
 from typing import Dict, Any
+
 import moviepy.editor as mp
-import whisper
 
 
 class Transcriber:
-    def __init__(self, model: str = "base"):
-        self.model = whisper.load_model(model)
+    def __init__(self, backend: str = "openai", model: str = "medium"):
+        self.backend = backend
+        if self.backend == "local":
+            import whisper
+            self.model = whisper.load_model(model)
+        elif self.backend == "openai":
+            from openai import OpenAI
+            self.client = OpenAI()
+
         self.temp_directory = Path("/tmp/video_transcription/")
+        self.temp_directory.mkdir(parents=True, exist_ok=True)
 
     def _convert_video_to_audio(self, filepath: os.PathLike) -> os.PathLike:
         input_path = Path(filepath)
@@ -22,4 +30,18 @@ class Transcriber:
 
     def __call__(self, filepath: os.PathLike) -> Dict[str, Any]:
         audio_path = self._convert_video_to_audio(filepath)
-        return self.model.transcribe(audio_path)
+
+        if self.backend == "local":
+            response = self.model.transcribe(str(audio_path))
+
+        elif self.backend == "openai":
+            with open(audio_path, 'rb') as audio_file:
+                response = self.client.audio.transcriptions.create(
+                    model="whisper-1",
+                    file=audio_file
+                )
+
+        else:
+            raise ValueError("Invalid backend type: supported are: 'local' and 'openai'")
+
+        return response
