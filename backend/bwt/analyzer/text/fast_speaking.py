@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Any, Dict
 
 from bwt.analyzer.text.text_analyzer import TextAnalyzer
 from bwt.tokenizer.syllablizer import Syllablizer
@@ -27,12 +27,14 @@ class FastSpeakingAnalyzer(TextAnalyzer):
         self.tokenizer = Tokenizer()
         self.syllabizer = Syllablizer()
 
-    def __call__(self, transcription: Word) -> Dict[str, Words]:
+    def __call__(self, transcription: Word) -> Dict[str, Any]:
         sentences = get_sentences_with_words(transcription, self.tokenizer)
         fast_sentences = []
+        speeds = []
         for sentence in sentences:
             speed = self._process_sentence(sentence)
             text = join_sentence(sentence)
+            speeds.append(speed)
             if speed > self.min_speed:
                 fast_sentences.append({
                     "text": text,
@@ -41,7 +43,10 @@ class FastSpeakingAnalyzer(TextAnalyzer):
                     "end": sentence[-1]["end"],
                 })
 
-        return {self.name: fast_sentences}
+        return {
+            self.name: fast_sentences,
+            "speaking_speed": speeds
+        }
 
     def _process_sentence(self, sentence_words: Words) -> float:
         # Filter out words with low confidence and too long duration

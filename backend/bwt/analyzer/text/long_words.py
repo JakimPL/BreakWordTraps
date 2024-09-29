@@ -3,7 +3,6 @@ from typing import Any, Dict
 
 from bwt.analyzer.text.text_analyzer import TextAnalyzer
 from bwt.tokenizer.tokenizer import Tokenizer
-from bwt.transcription.utility import Words
 from bwt.transcription.utility import get_sentences_with_words, join_sentence
 
 MAX_SQUARE_MEAN_WORD_LENGTH = 6.0
@@ -17,10 +16,11 @@ class LongWordsAnalyzer(TextAnalyzer):
 
         self.tokenizer = Tokenizer()
 
-    def __call__(self, transcription: Dict[str, Any]) -> Dict[str, Words]:
+    def __call__(self, transcription: Dict[str, Any]) -> Dict[str, Any]:
         sentences = get_sentences_with_words(transcription, self.tokenizer)
 
         sentences_with_long_words = []
+        square_mean_word_lengths = []
         for sentence in sentences:
             if not sentence:
                 continue
@@ -32,6 +32,7 @@ class LongWordsAnalyzer(TextAnalyzer):
                 len(word) ** 2 for word in words
             ) / len(words))
 
+            square_mean_word_lengths.append(square_mean_word_length)
             if square_mean_word_length > self.max_square_mean_word_length:
                 text = join_sentence(sentence)
                 start = sentence[0]["start"]
@@ -43,4 +44,7 @@ class LongWordsAnalyzer(TextAnalyzer):
                     "square_mean_word_length": square_mean_word_length
                 })
 
-        return {self.name: sentences_with_long_words}
+        return {
+            self.name: sentences_with_long_words,
+            "square_mean_word_lengths": square_mean_word_lengths
+        }
