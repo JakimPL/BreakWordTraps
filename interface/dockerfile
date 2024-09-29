@@ -1,4 +1,4 @@
-FROM python:3.9
+FROM python:3.11
 
 RUN mkdir /interface
 
@@ -9,7 +9,6 @@ COPY requirements.txt /interface
 WORKDIR /interface
 
 RUN pip install -r requirements.txt
-
 
 COPY . /interface
 
