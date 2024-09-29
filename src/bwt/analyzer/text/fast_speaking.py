@@ -1,7 +1,7 @@
-import re
 from typing import Dict
 
 from bwt.analyzer.text.analyzer import Analyzer
+from bwt.tokenizer.syllablizer import Syllablizer
 from bwt.tokenizer.tokenizer import Tokenizer
 from bwt.transcription.utility import Word, Words
 from bwt.transcription.utility import get_sentences_with_words, join_sentence
@@ -25,6 +25,7 @@ class FastSpeakingAnalyzer(Analyzer):
         self.min_speed = min_speed
 
         self.tokenizer = Tokenizer()
+        self.syllabizer = Syllablizer()
 
     def __call__(self, transcription: Word) -> Dict[str, Words]:
         sentences = get_sentences_with_words(transcription, self.tokenizer)
@@ -51,7 +52,7 @@ class FastSpeakingAnalyzer(Analyzer):
         total_syllabes = 0
         total_length = 0.0
         for word in words:
-            syllabes = self._count_syllables(word["text"])
+            syllabes = self.syllabizer(word["text"])
             total_syllabes += syllabes
             length = word["end"] - word["start"]
             total_length += length
@@ -67,9 +68,3 @@ class FastSpeakingAnalyzer(Analyzer):
                 fast_words.append(word)
 
         return fast_words
-
-    @staticmethod
-    def _count_syllables(word: str) -> int:
-        pattern = r'([aąeęiouyó]+(?:[łńćźż]+)?|[łńćźż]*?[aąeęiouyó]{1})'
-        syllables = re.findall(pattern, word, re.IGNORECASE)
-        return len(syllables)
