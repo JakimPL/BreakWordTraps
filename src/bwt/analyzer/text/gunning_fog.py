@@ -19,14 +19,14 @@ class GunningFogIndex(Analyzer):
         self.tokenizer = Tokenizer()
         self.syllablizer = Syllablizer()
 
-    def __call__(self, transcription: Dict[str, Any]) -> float:
+    def __call__(self, transcription: Dict[str, Any]) -> Dict[str, float]:
         words = get_words(transcription)
         word_count = len(words)
         sentence_count = len(get_sentences(transcription, self.tokenizer))
         hard_word_count = len(self._get_hard_words(words))
 
         fog = 0.4 * (word_count / sentence_count + 100 * hard_word_count / word_count)
-        return fog
+        return {self.name: fog}
 
     def _get_hard_words(self, words: Words) -> List[str]:
         hard_words = []

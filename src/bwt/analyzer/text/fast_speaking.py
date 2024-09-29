@@ -49,15 +49,15 @@ class FastSpeakingAnalyzer(Analyzer):
         if not words:
             return 0.0
 
-        total_syllabes = 0
+        total_syllables = 0
         total_length = 0.0
         for word in words:
-            syllabes = self.syllabizer(word["text"])
-            total_syllabes += syllabes
+            syllables = len(self.syllabizer(word["text"]))
+            total_syllables += syllables
             length = word["end"] - word["start"]
             total_length += length
 
-        return total_syllabes / total_length
+        return total_syllables / total_length
 
     def _get_fast_words(self, words: Words) -> Words:
         fast_words = []

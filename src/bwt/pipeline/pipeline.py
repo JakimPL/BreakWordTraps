@@ -6,6 +6,7 @@ from tqdm import tqdm
 
 from bwt.analyzer.text.combined import CombinedAnalyzer
 from bwt.analyzer.text.fast_speaking import FastSpeakingAnalyzer
+from bwt.analyzer.text.gunning_fog import GunningFogIndex
 from bwt.analyzer.text.long_sentences import LongSentencesAnalyzer
 from bwt.analyzer.text.long_words import LongWordsAnalyzer
 from bwt.analyzer.text.numerals import NumeralsAnalyzer
@@ -27,6 +28,7 @@ class Pipeline:
             LongWordsAnalyzer(),
             NumeralsAnalyzer(),
             PausesAnalyzer(),
+            GunningFogIndex(),
         ]
 
     def __call__(self, input_path: os.PathLike) -> Dict[str, Any]:
