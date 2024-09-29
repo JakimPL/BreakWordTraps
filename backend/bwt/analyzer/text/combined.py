@@ -1,7 +1,7 @@
 import json
 from typing import Any, Dict, List, Optional
 
-from bwt.analyzer.text.analyzer import Analyzer
+from bwt.analyzer.text.analyzer import TextAnalyzer
 from bwt.logger import get_logger
 from bwt.prompter.prompter import Prompter
 from bwt.tokenizer.tokenizer import Tokenizer
@@ -13,7 +13,7 @@ from bwt.transcription.utility import (
 )
 
 
-class CombinedAnalyzer(Analyzer):
+class CombinedAnalyzer(TextAnalyzer):
     name: str = "combined"
 
     def __init__(self):
