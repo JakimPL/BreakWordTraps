@@ -68,7 +68,7 @@ def run():
   
     if st.button("Predict"):
         # response = requests.post("http://backend:8000/predict", json=data) #127.0.0.1
-        response = requests.post("https://test-hackyeah-1-687682783908.europe-west1.run.app/hello", json=data)
+        response = requests.post("https://test-hackyeah-1-687682783908.europe-west1.run.app/hello")
         response.raise_for_status()
         prediction = response.json()
     
