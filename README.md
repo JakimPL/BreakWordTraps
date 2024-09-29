@@ -6,7 +6,13 @@ Narzędzie do analizy błędów językowych do prezentacji składa się z dwóch
 
 ## Uruchomienie
 
-Aplikacja pozwala na analizę błędów językowych w tekście. W tym celu należy wkleić tekst do pola tekstowego, a następnie nacisnąć przycisk `Przetwórz wideo`. Po chwili aplikacja zwróci wyniki podstawowe informacje oraz wskaże błędy w materiale.
+Aplikacja pozwala na analizę błędów językowych w tekście. Znajduje się ona pod adresem:
+
+```url
+https://test-hackyeah-1-interface-687682783908.europe-west1.run.app/
+```
+
+W tym celu należy wkleić tekst do pola tekstowego, a następnie nacisnąć przycisk `Przetwórz wideo`. Po chwili aplikacja zwróci wyniki podstawowe informacje oraz wskaże błędy w materiale.
 
 Szczegółowe i kompletne, aczkolwiek bardzo techniczne, dane w postaci słownika JSON zamieszczone są pod przetworzonym wideo. 
 
