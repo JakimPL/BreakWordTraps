@@ -1,0 +1,22 @@
+steps:
+  # Build the Docker Compose services
+  - name: 'docker/compose:1.26.2'
+    entrypoint: '/bin/sh'  # Use the shell available in Alpine Linux
+    args:
+      - '-c'
+      - |
+        docker-compose build \
+          --build-arg PROJECT_ID=$hackyeah-breakthewordstraps-11 \
+          --build-arg SHORT_SHA=$breakthewordstraps
+
+  # Tag the built images with the desired tags
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['tag', 'workspace_backend:latest', 'europe-west1-docker.pkg.dev/hackyeah-breakthewordstraps-11/myimage:$hackyeah-containter-2115']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['tag', 'workspace_interface:latest', 'europe-west1-docker.pkg.dev/hackyeah-breakthewordstraps-11/myimage:$hackyeah-containter-2137']
+
+  # Push the tagged images to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'europe-west1-docker.pkg.dev/hackyeah-breakthewordstraps-11/BreakWordsTraps/myimage:$hackyeah-containter-2115']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'europe-west1-docker.pkg.dev/hackyeah-breakthewordstraps-11/BreakWordsTraps/myimage:$hackyeah-containter-2137']
