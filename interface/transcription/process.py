@@ -1,9 +1,9 @@
 from typing import Any, Dict, List, Tuple
 from annotated_text import annotated_text
 
-from bwt.tokenizer.tokenizer import Tokenizer
-from bwt.transcription.utility import get_words
-from bwt.transcription.utility import Words
+from tokenizer.tokenizer import Tokenizer
+from transcription.utility import get_words
+from transcription.utility import Words
 
 COLOR_MAP = {
     "pauses": "#fae73c",

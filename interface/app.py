@@ -1,4 +1,8 @@
 import streamlit as st
+import requests
+import pandas as pd
+import matplotlib.pyplot as plt
+
 from transcription.statistics import Statistics
 from transcription.process import TranscriptionProcessor
 
