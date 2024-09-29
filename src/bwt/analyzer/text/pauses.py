@@ -1,6 +1,6 @@
 from typing import Dict
 
-from bwt.analyzer.text.analyzer import Analyzer
+from bwt.analyzer.text.analyzer import TextAnalyzer
 from bwt.transcription.utility import Word, Words
 from bwt.transcription.utility import get_words
 
@@ -8,7 +8,7 @@ MIN_CONFIDENCE = 0.6
 MIN_PAUSE_LENGTH = 3.5
 
 
-class PausesAnalyzer(Analyzer):
+class PausesAnalyzer(TextAnalyzer):
     name: str = "pauses"
 
     def __init__(

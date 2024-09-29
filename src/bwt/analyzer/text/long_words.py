@@ -1,7 +1,7 @@
 import math
 from typing import Any, Dict
 
-from bwt.analyzer.text.analyzer import Analyzer
+from bwt.analyzer.text.analyzer import TextAnalyzer
 from bwt.tokenizer.tokenizer import Tokenizer
 from bwt.transcription.utility import Words
 from bwt.transcription.utility import get_sentences_with_words, join_sentence
@@ -9,7 +9,7 @@ from bwt.transcription.utility import get_sentences_with_words, join_sentence
 MAX_SQUARE_MEAN_WORD_LENGTH = 6.0
 
 
-class LongWordsAnalyzer(Analyzer):
+class LongWordsAnalyzer(TextAnalyzer):
     name: str = "long_words"
 
     def __init__(self, max_square_mean_word_length: int = MAX_SQUARE_MEAN_WORD_LENGTH):

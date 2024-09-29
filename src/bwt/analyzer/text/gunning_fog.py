@@ -1,7 +1,7 @@
 import math
 from typing import Any, Dict, List
 
-from bwt.analyzer.text.analyzer import Analyzer
+from bwt.analyzer.text.analyzer import TextAnalyzer
 from bwt.tokenizer.syllablizer import Syllablizer
 from bwt.tokenizer.tokenizer import Tokenizer
 from bwt.transcription.utility import Words, get_sentences
@@ -10,7 +10,7 @@ from bwt.transcription.utility import get_words
 MIN_HARD_WORDS_SYLLABLES = 4
 
 
-class GunningFogIndex(Analyzer):
+class GunningFogIndex(TextAnalyzer):
     name: str = "gunning_fog"
 
     def __init__(self, min_hard_words_syllables: int = MIN_HARD_WORDS_SYLLABLES):
@@ -26,7 +26,11 @@ class GunningFogIndex(Analyzer):
         hard_word_count = len(self._get_hard_words(words))
 
         fog = 0.4 * (word_count / sentence_count + 100 * hard_word_count / word_count)
-        return {self.name: fog}
+        interpretation = self._get_interpretation(fog)
+        return {
+            "gunning_fog": fog,
+            "gunning_fog_interpretation": interpretation
+        }
 
     def _get_hard_words(self, words: Words) -> List[str]:
         hard_words = []
@@ -37,3 +41,19 @@ class GunningFogIndex(Analyzer):
                 hard_words.append(text)
 
         return hard_words
+
+    @staticmethod
+    def _get_interpretation(fog: float) -> str:
+        fog_rounded = math.ceil(fog)
+        if fog_rounded <= 6:
+            return "Język bardzo prosty, zrozumiały już dla uczniów szkoły podstawowej."
+        elif fog_rounded <= 9:
+            return "Język prosty, zrozumiały już dla uczniów gimnazjum."
+        elif fog_rounded <= 12:
+            return "Język dość prosty, zrozumiały już dla uczniów liceum."
+        elif fog_rounded <= 15:
+            return "Język dość trudny, zrozumiały dla studentów studiów licencjackich."
+        elif fog_rounded <= 17:
+            return "język trudny, zrozumiały dla studentów studiów magisterskich."
+        else:
+            return "Język bardzo trudny, zrozumiały dla magistrów i osób z wyższym wykształceniem."

@@ -1,6 +1,6 @@
 from typing import Dict
 
-from bwt.analyzer.text.analyzer import Analyzer
+from bwt.analyzer.text.analyzer import TextAnalyzer
 from bwt.tokenizer.syllablizer import Syllablizer
 from bwt.tokenizer.tokenizer import Tokenizer
 from bwt.transcription.utility import Word, Words
@@ -11,7 +11,7 @@ MIN_SPEED = 6.15
 MAX_DURATION = 3.5
 
 
-class FastSpeakingAnalyzer(Analyzer):
+class FastSpeakingAnalyzer(TextAnalyzer):
     name: str = "fast_speaking"
 
     def __init__(

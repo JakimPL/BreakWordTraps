@@ -11,6 +11,7 @@ from bwt.analyzer.text.long_sentences import LongSentencesAnalyzer
 from bwt.analyzer.text.long_words import LongWordsAnalyzer
 from bwt.analyzer.text.numerals import NumeralsAnalyzer
 from bwt.analyzer.text.pauses import PausesAnalyzer
+from bwt.analyzer.text.sentiment import SentimentAnalyzer
 from bwt.converter.video_to_audio import VideoToAudioConverter
 from bwt.logger import get_logger
 from bwt.transcription.transcription import Transcriber
@@ -24,11 +25,12 @@ class Pipeline:
         self.text_analyzers = [
             CombinedAnalyzer(),
             FastSpeakingAnalyzer(),
+            GunningFogIndex(),
             LongSentencesAnalyzer(),
             LongWordsAnalyzer(),
             NumeralsAnalyzer(),
             PausesAnalyzer(),
-            GunningFogIndex(),
+            SentimentAnalyzer()
         ]
 
     def __call__(self, input_path: os.PathLike) -> Dict[str, Any]:
