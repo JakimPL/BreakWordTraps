@@ -40,7 +40,7 @@ class Statistics:
         colA, colB, colC = st.columns(3)
         colA.metric("Liczba słów", word_count, help="Liczba słów")
         colB.metric("Liczba zdań", sentence_count, help="Liczba zdań")
-        colC.metric("Gunning FOG", gunning_fog, help="Indeks mglistości")
+        colC.metric("Gunning FOG", f"{gunning_fog:.2f}", help="Indeks mglistości")
 
         col1, col2, col3, col4 = st.columns(4)
 

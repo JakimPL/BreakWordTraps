@@ -12,6 +12,7 @@ setup(
         'pandas',
         'openai',
         'openai-whisper',
+        'python-multipart',
         'requests',
         'spacy',
         'st-annotated-text',

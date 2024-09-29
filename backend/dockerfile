@@ -4,7 +4,7 @@ RUN mkdir /backend
 
 
 COPY requirements.txt /backend
-
+RUN !python3 -m spacy download pl_core_news_sm
 
 WORKDIR /backend
 
