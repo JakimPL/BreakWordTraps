@@ -3,8 +3,8 @@ from typing import Any, Dict
 
 import streamlit as st
 
-from bwt.tokenizer.tokenizer import Tokenizer
-from bwt.transcription.utility import get_words, get_sentences
+from tokenizer.tokenizer import Tokenizer
+from transcription.utility import get_words, get_sentences
 
 
 class Statistics:
@@ -20,6 +20,7 @@ class Statistics:
         sentence_lengths = self.analysis["sentence_lengths"]
         word_count = len(self.words)
         sentence_count = len(self.sentences)
+        gunning_fog = self.analysis["gunning_fog"]
 
         total_sentences = len(self.sentences)
         repetitions = self.analysis["repetitions"]
@@ -36,9 +37,10 @@ class Statistics:
         passive_voice_ratio = len(passive_voice_sentences) / total_sentences
 
         # Tworzenie kolumn w Streamlit
-        colA, colB = st.columns(2)
+        colA, colB, colC = st.columns(3)
         colA.metric("Liczba słów", word_count, help="Liczba słów")
         colB.metric("Liczba zdań", sentence_count, help="Liczba zdań")
+        colC.metric("Gunning FOG", gunning_fog, help="Indeks mglistości")
 
         col1, col2, col3, col4 = st.columns(4)
 
