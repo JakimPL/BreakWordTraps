@@ -1,10 +1,11 @@
 fastapi
 moviepy
+uvicorn
 #openai
 #openai-whisper
-spacy
-tqdm
-uvicorn
+#spacy
+#tqdm
+#uvicorn
 #whisper_timestamped
 #google-cloud-storage==2.9.0
 #google-cloud
