@@ -1,11 +1,9 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from google.cloud import storage
-from bwt.pipeline.pipeline import Pipeline
+
 
 app = FastAPI()
 
-app.add_middleware(
+"""app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],  # Update this to the port your frontend is running on
     allow_credentials=True,
@@ -21,7 +19,7 @@ def download_from_bucket(bucket_name, source_blob_name, destination_file_name):
     blob.download_to_filename(destination_file_name)
     print(f"Downloaded {source_blob_name} from bucket {bucket_name} to {destination_file_name}")
 
-
+"""
 """@app.get("/run_pipeline/")
 def read_root():
     bucket_name = "gs://breakthewordstraps-bucket-hackyeah/sample_video.mov"
