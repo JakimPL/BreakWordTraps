@@ -3,14 +3,19 @@ from setuptools import find_packages, setup
 setup(
     name='bwt',
     version='0.1.0',
-    packages=find_packages(where='src'),
-    package_dir={'': 'backend'},
+    packages=find_packages(where='backend'),
+    package_dir={'bwt': 'backend/bwt', 'bwt_front': 'interface'},
     install_requires=[
         'fastapi',
+        'matplotlib',
         'moviepy',
+        'pandas',
         'openai',
         'openai-whisper',
+        'requests',
         'spacy',
+        'st-annotated-text',
+        'streamlit',
         'tqdm',
         'whisper_timestamped',
         'uvicorn'
