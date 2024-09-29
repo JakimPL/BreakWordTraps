@@ -11,12 +11,12 @@ steps:
 
   # Tag the built images with the desired tags
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['tag', 'backend:latest', 'europe-west1-docker.pkg.dev/hackyeah-breakthewordstraps-11/ujo142/BreakWordsTraps/myimage-backend']
+    args: ['tag', 'myimage-backend:latest', 'europe-west1-docker.pkg.dev/hackyeah-breakthewordstraps-11/ujo142/breakbordsbraps/backend/myimage-backend']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['tag', 'interface:latest', 'europe-west1-docker.pkg.dev/hackyeah-breakthewordstraps-11/ujo142/BreakWordsTraps/myimage-interface']
+    args: ['tag', 'myimage-interface:latest', 'europe-west1-docker.pkg.dev/hackyeah-breakthewordstraps-11/ujo142/breakwordsbraps/interface/myimage-interface']
 
   # Push the tagged images to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'europe-west1-docker.pkg.dev/hackyeah-breakthewordstraps-11/ujo142/BreakWordsTraps/myimage-backend']
+    args: ['push', 'europe-west1-docker.pkg.dev/hackyeah-breakthewordstraps-11/ujo142/breakwordstraps/backend/myimage-backend']
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'europe-west1-docker.pkg.dev/hackyeah-breakthewordstraps-11/ujo142/BreakWordsTraps/myimage-interface']
+    args: ['push', 'europe-west1-docker.pkg.dev/hackyeah-breakthewordstraps-11/ujo142/breakwordstraps/interface/myimage-interface']
