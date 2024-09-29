@@ -1,6 +1,6 @@
 from typing import Dict
 
-from bwt.analyzer.text.analyzer import TextAnalyzer
+from bwt.analyzer.text.text_analyzer import TextAnalyzer
 from bwt.transcription.utility import Word, Words
 from bwt.transcription.utility import get_words
 

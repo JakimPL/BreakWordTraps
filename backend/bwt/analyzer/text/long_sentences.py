@@ -1,6 +1,6 @@
 from typing import Any, Dict
 
-from bwt.analyzer.text.analyzer import TextAnalyzer
+from bwt.analyzer.text.text_analyzer import TextAnalyzer
 from bwt.tokenizer.tokenizer import Tokenizer
 from bwt.transcription.utility import Words
 from bwt.transcription.utility import get_sentences_with_words, join_sentence

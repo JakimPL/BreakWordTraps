@@ -1,7 +1,7 @@
 import json
 from typing import Any, Dict, Optional
 
-from bwt.analyzer.text.analyzer import TextAnalyzer
+from bwt.analyzer.text.text_analyzer import TextAnalyzer
 from bwt.logger import get_logger
 from bwt.prompter.prompter import Prompter
 from bwt.tokenizer.tokenizer import Tokenizer
