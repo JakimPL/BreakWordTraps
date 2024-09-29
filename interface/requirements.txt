@@ -1,6 +1,4 @@
-matplotlib
 streamlit
-pandas
 requests
 spacy
 st-annotated-text
